@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MathJax } from 'better-react-mathjax';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import { Form } from 'react-bootstrap';
 import CircularProgress from '@mui/material/CircularProgress';
 import './MathQuestion.css';
@@ -22,25 +22,36 @@ const MathQuestion = () => {
         fetchApi();
     }, [id, url]);
     return (
-        <div className={`container mt-5 ${isLoading ? 'loader' : ''}`}>
-            {isLoading ? <CircularProgress color="inherit" />
-                : <div className='content'>
-                    <h2><strong>{title}</strong></h2>
-                     <span>{question && <MathJax>{question}</MathJax>}</span>
-                    <div>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Code Editor : </Form.Label>
-                            <Form.Control as="textarea" rows={6} placeholder='// Your Code Here...' />
-                        </Form.Group>
-                    </div>
-                    <div className='buttons'>
-                        <button onClick={() => setId(prev => prev - 1)} disabled={id === 0} className='btn btn-dark'>PREV</button>
-                        <button onClick={() => setId(prev => prev + 1)} disabled={id === questionID.length - 1} className='btn btn-dark'>NEXT</button>
-                    </div>
-                </div>}
-        </div>
+        <MathJaxContext
+            version={3}
+            config={{
+                TeX: { 
+                    extensions: ["AMSmath.js", "AMSsymbols.js"],
+                    macros: {
+                        "\\Z": "\\mathbb{Z}"
+                    }
+                }
+            }}
+        >
+            <div className={`container mt-5 ${isLoading ? 'loader' : ''}`}>
+                {isLoading ? <CircularProgress color="inherit" />
+                    : <div className='content'>
+                        <h2><strong>{title}</strong></h2>
+                        <MathJax>{question}</MathJax>
+                        <div>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Code Editor : </Form.Label>
+                                <Form.Control as="textarea" rows={6} placeholder='// Your Code Here...' />
+                            </Form.Group>
+                        </div>
+                        <div className='buttons'>
+                            <button onClick={() => setId(prev => prev - 1)} disabled={id === 0} className='btn btn-dark'>PREV</button>
+                            <button onClick={() => setId(prev => prev + 1)} disabled={id === questionID.length - 1} className='btn btn-dark'>NEXT</button>
+                        </div>
+                    </div>}
+            </div>
+        </MathJaxContext>
     );
 };
 
 export default MathQuestion;
-
