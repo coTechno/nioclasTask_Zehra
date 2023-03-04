@@ -10,8 +10,8 @@ const MathQuestion = () => {
     const [id, setId] = useState(0)
     const [title, setTitle] = useState('')
     const [question, setQuestion] = useState('')
+   let url = `https://0h8nti4f08.execute-api.ap-northeast-1.amazonaws.com/getQuestionDetails/getquestiondetails?QuestionID=${questionID[id]}`
     useEffect(() => {
-        let url = `https://0h8nti4f08.execute-api.ap-northeast-1.amazonaws.com/getQuestionDetails/getquestiondetails?QuestionID=${questionID[id]}`
         const fetchApi = async () => {
             const fetchedQues = await fetch(url)
             const data = await fetchedQues.json()
@@ -20,7 +20,7 @@ const MathQuestion = () => {
             setIsloading(false)
         }
         fetchApi()
-    }, [id, question])
+    }, [id, url])
     return (
         <div className={`container mt-5 ${isLoading ? 'loader' : ''}`}>
             {isLoading ? <CircularProgress color="inherit" />
