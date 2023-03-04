@@ -26,11 +26,11 @@ const MathQuestion = () => {
             {isLoading ? <CircularProgress color="inherit" />
                 : <div className='content'>
                     <h2><strong>{title}</strong></h2>
-                    <MathJax>
-                        <span>
+                    <span>
+                        <MathJax>
                             {question}
-                        </span>
-                    </MathJax>
+                        </MathJax>
+                    </span>
                     <div>
                         <Form.Group className="mb-3">
                             <Form.Label>Code Editor : </Form.Label>
